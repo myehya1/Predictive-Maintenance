@@ -1,0 +1,7 @@
+metric,value
+Average precision (PR-AUC),0.6402
+ROC-AUC,0.6203
+Accuracy,0.5669
+Anomaly precision,0.7547
+Anomaly recall,0.1835
+Anomaly F1,0.2952
