@@ -1,21 +1,45 @@
-# Wind Turbine Predictive Maintenance Assistant
+# Wind Turbine Predictive Maintenance
 
-An experimental CARE to Compare v6 SCADA project. The data loader reads the verified files from `data_v6/CARE_To_Compare`; the original dataset folders are left untouched.
+An educational project using the CARE to Compare v6 wind-turbine SCADA dataset. The current hands-on workflow focuses on **Wind Farm A** and an LSTM autoencoder that flags sensor windows that look unusual.
 
-## Data and model
+## Current project status
 
-CSV filenames are **event IDs**. Metadata columns `asset` or `asset_id` identify the **turbine ID**. The loader normalizes these names and checks that the CSV's turbine ID matches event metadata.
+- The original dataset is kept under `data/raw/`. The active notebooks read Farm A data and write prepared copies under `data/processed/farm_a/`; they do not edit raw files.
+- Farm A has 22 event files, 45 selected average sensor features, and data from five turbines.
+- The notebook pipeline is `01_data_exploration.ipynb` -> `02_preprocessing.ipynb` -> `03_feature_engineering.ipynb` -> `04_train_model.ipynb` -> `05_evaluation.ipynb`.
+- The LSTM uses normal-status training windows. The supplied training rows are split chronologically by turbine into training and validation; supplied prediction rows are held aside. The notebooks check that turbine timestamps are not shared between these partitions.
+- Each window contains 12 readings (about two hours at ten-minute intervals). Consecutive windows start 120 rows apart (about 20 hours).
 
-Sensor inputs come from each farm's `feature_description.csv` rows that list `average`. Farm feature sets differ, so training builds one model per farm. The trainer uses only rows marked `train`, takes a chronological validation tail from those rows, and keeps `prediction` rows separate. Imputation and scaling are fitted on normal-status (status 0) training rows only. The LSTM autoencoder learns to reconstruct normal sensor windows. Its alert threshold is the 99th percentile of normal validation reconstruction error. Event labels are reserved for checking predictions and never used to fit the model.
+## Latest Farm A baseline
 
-Run tests with `python -m pytest`. Training, which is intentionally not run as part of the current project update, can be started with `python -m src.train --epochs 8 --window 12`. It writes one model and preprocessing artifact per farm to `models/`.
+The latest exploratory run used a threshold at the 90th percentile of normal validation-window errors. On 441 prediction windows, it flagged 40 of 218 anomaly-labeled windows and 13 of 223 normal-labeled windows. That is about 18% anomaly recall and 6% false alarms among normal windows. PR-AUC was 0.640 and ROC-AUC was 0.620.
 
-## API
+These are **learning/demo results, not a reliable maintenance alarm**. The prediction results have been viewed while comparing thresholds, so they are no longer an untouched final test. Also, labels are attached to whole events and some prediction windows overlap across event files.
 
-Start with `uvicorn app.main:app --reload`.
+## Run the notebooks
 
-- `GET /health` lists farms and event counts.
-- `GET /events/{farm}/{event_id}/status` scores that event and returns both its event ID and turbine ID.
-- `POST /ask` accepts a question with a farm and event ID. Function calling and the sensor caveat retrieval remain available.
+Open the notebooks in `notebooks/` and run them in order, from 01 through 05:
 
-Anomaly scores are experimental signals, not confirmed diagnoses. Evaluate thresholds and event detection quality against the untouched prediction rows before operational use.
+1. Explore Farm A.
+2. Prepare processed Farm A event files.
+3. Create separate train, validation, and prediction windows.
+4. Train the LSTM and choose a threshold using validation data only. The model, scaler, training history, settings, and threshold comparison are saved under `models/farm_a/`.
+5. Evaluate on prediction windows. Tables and a confusion-matrix image are saved under `reports/farm_a/`.
+
+Save notebooks after running if you want their visible cell outputs stored in the notebook files. Generated model and report files are local outputs; they are not needed to understand the source code.
+
+## LLM and RAG status
+
+Ollama with `qwen3:4b` has been tested from the terminal and from Python, but the local model is **not yet connected to the project**. The next integration step is a simple local LLM response, followed by RAG over project documentation.
+
+There is also an older FastAPI prototype in `app/`. It has optional OpenAI function calling and TF-IDF search over `docs/sensor_caveats.md`. It is separate from the active Farm A notebook pipeline: its data loader expects `data_v6/CARE_To_Compare/`, while the dataset in this checkout is under `data/raw/`, and it expects a different model artifact. Treat that API as an earlier prototype until those paths and artifacts are aligned.
+
+## Repository layout
+
+- `data/raw/` - original CARE v6 dataset (kept unchanged)
+- `data/processed/` - processed event files and feature windows generated by notebooks
+- `notebooks/` - exploration, preprocessing, feature engineering, training, and evaluation
+- `src/` - model and earlier training/API support code
+- `app/` - earlier FastAPI prototype
+- `docs/` - sensor caveats used by the earlier API prototype
+- `models/` and `reports/` - generated local artifacts and evaluation outputs
