@@ -1,0 +1,65 @@
+{
+  "questions": 30,
+  "chat_model": "qwen3:4b",
+  "embedding_model": "embeddinggemma",
+  "without_rag_pass": 4,
+  "with_rag_pass": 18,
+  "top1_retrieval_topic_evidence": 30,
+  "by_topic": {
+    "unknown units": {
+      "questions": 3,
+      "without_rag": 0,
+      "with_rag": 1
+    },
+    "ten-minute aggregates": {
+      "questions": 3,
+      "without_rag": 0,
+      "with_rag": 1
+    },
+    "zero readings": {
+      "questions": 3,
+      "without_rag": 1,
+      "with_rag": 2
+    },
+    "flat readings": {
+      "questions": 3,
+      "without_rag": 1,
+      "with_rag": 2
+    },
+    "cross-farm comparisons": {
+      "questions": 3,
+      "without_rag": 1,
+      "with_rag": 2
+    },
+    "event labels": {
+      "questions": 3,
+      "without_rag": 0,
+      "with_rag": 2
+    },
+    "gaps and status": {
+      "questions": 3,
+      "without_rag": 1,
+      "with_rag": 2
+    },
+    "wind and power context": {
+      "questions": 3,
+      "without_rag": 0,
+      "with_rag": 2
+    },
+    "channel scales": {
+      "questions": 3,
+      "without_rag": 0,
+      "with_rag": 3
+    },
+    "temperature readings": {
+      "questions": 3,
+      "without_rag": 0,
+      "with_rag": 1
+    }
+  },
+  "scoring": "Pass only when the answer contains at least one phrase from every expected phrase group. Top-1 retrieval is a small topic-keyword check. These are transparent keyword checks, not human or semantic judgments.",
+  "files": {
+    "details": "reports\\rag_eval\\rag_comparison.csv"
+  },
+  "elapsed_seconds": 580.0
+}

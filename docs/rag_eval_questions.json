@@ -1,0 +1,41 @@
+[
+  {"id":"Q01","topic":"unknown units","question":"Can we tell what physical quantity sensor_12 measures, or its unit, from its name?","expected_groups":[["anonymized","anonymous","generic"],["unit","units"],["not supplied","not provided","unknown","cannot tell","can't tell","not known"]]},
+  {"id":"Q02","topic":"unknown units","question":"What does sensor_45 represent in engineering terms?","expected_groups":[["sensor_45"],["meaning","physical meaning","represents"],["unknown","not supplied","not provided"]]},
+  {"id":"Q03","topic":"unknown units","question":"Is it safe to call sensor_7 a temperature sensor based only on its column name?","expected_groups":[["not infer","do not infer","cannot infer","not assume"],["column number","sensor number","name"],["unknown","not supplied"]]},
+
+  {"id":"Q04","topic":"ten-minute aggregates","question":"Could a short spike be hidden in a ten-minute average?","expected_groups":[["ten-minute","10-minute"],["aggregate","average"],["short","brief","short-lived"],["hide","miss","not capture"]]},
+  {"id":"Q05","topic":"ten-minute aggregates","question":"Do these readings show every rapid change that happened between samples?","expected_groups":[["aggregate","average"],["between samples","between readings","between sample"],["not","can hide","may miss"]]},
+  {"id":"Q06","topic":"ten-minute aggregates","question":"How should I interpret a brief excursion when the dataset stores ten-minute summaries?","expected_groups":[["ten-minute","10-minute"],["summary","aggregate","average"],["short","brief","excursion"],["may be hidden","can be hidden","can hide"]]},
+
+  {"id":"Q07","topic":"zero readings","question":"Does a zero sensor value always mean the value is missing?","expected_groups":[["zero"],["not always","does not always","don't always","may be"],["real","stopped","default","missing"]]},
+  {"id":"Q08","topic":"zero readings","question":"What should I check before treating a zero as a fault?","expected_groups":[["operating state","turbine state","stopped state"],["neighbor","nearby","surrounding"],["zero"]]},
+  {"id":"Q09","topic":"zero readings","question":"List possible explanations for a zero SCADA reading.","expected_groups":[["real value","real reading","legitimate"],["stopped","communication default","missing-value","missing encoding"]]},
+
+  {"id":"Q10","topic":"flat readings","question":"If a sensor is flat for a while, does that prove it is broken?","expected_groups":[["not necessarily","does not prove","not prove","could be"],["stable","frozen","stale"],["compare","check"]]},
+  {"id":"Q11","topic":"flat readings","question":"How can I investigate repeated identical values?","expected_groups":[["flat","repeated","identical"],["timestamps","related channels","turbine state"],["compare","check"]]},
+  {"id":"Q12","topic":"flat readings","question":"Could an unchanged sensor value be normal operation or a stale channel?","expected_groups":[["stable operation","normal operation","stable"],["stale","frozen"],["compare","check"]]},
+
+  {"id":"Q13","topic":"cross-farm comparisons","question":"Can I directly compare sensor magnitudes between farms?","expected_groups":[["not directly","may not","not guaranteed","caution"],["calibration","availability"],["same farm","same turbine","within"]]},
+  {"id":"Q14","topic":"cross-farm comparisons","question":"Why might a sensor's values differ between wind farms even when turbines are healthy?","expected_groups":[["calibration","availability"],["farm","farms"],["not directly comparable","differ"]]},
+  {"id":"Q15","topic":"cross-farm comparisons","question":"What is a safer comparison group for raw SCADA magnitudes?","expected_groups":[["same turbine","same farm","within the same"],["calibration","comparable"],["farm"]]},
+
+  {"id":"Q16","topic":"event labels","question":"Do maintenance event labels prove a fault at every timestamp in the event interval?","expected_groups":[["no","not"],["weak label","weak labels","historical annotation"],["approximate","approximation","not point-by-point","not diagnosis"]]},
+  {"id":"Q17","topic":"event labels","question":"How certain are the event start and end times?","expected_groups":[["approximate","may be approximate","uncertain"],["event log","maintenance"],["not exact","not point-by-point","weak"]]},
+  {"id":"Q18","topic":"event labels","question":"Should I treat an event description as a validated mapping from a sensor to a fault?","expected_groups":[["historical annotation","weak label","not validated"],["not","do not"],["sensor","fault"]]},
+
+  {"id":"Q19","topic":"gaps and status","question":"What can a long gap in timestamps do to a sequence model?","expected_groups":[["gap","missing timestamps","irregular"],["disrupt","break","sequence"],["coverage","sparse","window"]]},
+  {"id":"Q20","topic":"gaps and status","question":"Should sequence windows cross a large timestamp gap?","expected_groups":[["gap","large timestamp"],["sequence","window"],["not","avoid","disrupt"]]},
+  {"id":"Q21","topic":"gaps and status","question":"How should an assistant describe predictions when recent data coverage is sparse or the turbine is stopped?","expected_groups":[["qualify","caution","careful"],["sparse","coverage"],["stopped","status"]]},
+
+  {"id":"Q22","topic":"wind and power context","question":"Does low power by itself prove a turbine fault?","expected_groups":[["low power"],["not proof","does not prove","not necessarily","not proof"],["curtailment","operating mode","environment"]]},
+  {"id":"Q23","topic":"wind and power context","question":"What else can affect wind speed and power besides a fault?","expected_groups":[["curtailment","operating mode","mode"],["environment","environmental"],["power","wind"]]},
+  {"id":"Q24","topic":"wind and power context","question":"A turbine's power dropped. What context should I check before calling it a fault?","expected_groups":[["operating mode","mode"],["curtailment","environment"],["not proof","not by itself","context"]]},
+
+  {"id":"Q25","topic":"channel scales","question":"Are power, reactive power, and wind channels guaranteed to use the same scale?","expected_groups":[["not","different"],["scale","aggregation"],["feature name","context"]]},
+  {"id":"Q26","topic":"channel scales","question":"What should I inspect before comparing a wind channel with a power channel?","expected_groups":[["feature name","channel"],["context"],["scale","aggregation"]]},
+  {"id":"Q27","topic":"channel scales","question":"Can raw channel values be compared without checking how they are measured?","expected_groups":[["not","caution","check"],["scale","aggregation"],["context","feature name"]]},
+
+  {"id":"Q28","topic":"temperature readings","question":"Does a single temperature spike necessarily indicate a fault?","expected_groups":[["not","does not","not necessarily"],["sensor placement","warm-up","load","stale"],["persistence","corroborating","related"]]},
+  {"id":"Q29","topic":"temperature readings","question":"What should corroborate a temperature spike before escalating it?","expected_groups":[["persistence","persist"],["corroborating","related channels","other channels"],["sensor placement","load","warm-up","stale"]]},
+  {"id":"Q30","topic":"temperature readings","question":"Name other causes or checks for a temperature spike besides a fault.","expected_groups":[["placement","warm-up","load","stale"],["persistence","corroborating","related channels"]]}
+]

@@ -9,4 +9,4 @@ pydantic
 jupyter
 tqdm
 torch
-openai
+ollama
